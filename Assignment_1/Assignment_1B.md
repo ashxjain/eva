@@ -1,4 +1,4 @@
-##Assignment-1B
+## Assignment-1B
 
 ### What are Channels and Kernels (according to EVA)?
 
@@ -11,8 +11,10 @@ Channels and kernels go hand in hand. As kernels extracts the features, channels
 
 Usage of 3x3 kernels leads to less parameters and hence making it more computation efficient. Higher dimensions can be modeled with 3x3 kernel with lesser parameters. For example a 5x5 kernel can be achieved by using two 3x3 kernel. If we compare number of parameters for a 5x5 kernel and two 3x3 kernel:
 
-One 5x5 kernel : $1*5*5=25$ parameters
-Two 3x3 kernel : $2*3*3=18$ parameters
+```
+One 5x5 kernel : 1*5*5=25 parameters
+Two 3x3 kernel : 2*3*3=18 parameters
+```
 
 It can be observed that the number of parameters reduces and hence saves lot of computations. Following  [plot](https://goo.gl/d6RAaW) shows the number of parameters with respective to input image of dimension nxn:
 
@@ -24,7 +26,7 @@ Also with 3x3 kernel, we get more number of layers and hence we can capture more
 
 ### How many times do we need to perform 3x3 convolution operation to reach 1x1 from 199x199 (show calculations)
 
-99 Times
+* 99 Times
 ```
 199x199 | 197x197 | 195x195 | 193x193 | 191x191 | 189x189 = 5
 189x189 | 187x187 | 185x185 | 183x183 | 181x181 | 179x179 = 5
