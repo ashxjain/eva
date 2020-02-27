@@ -45,7 +45,30 @@ class ValueIterationAgent(ValueEstimationAgent):
 
         # Write value iteration code here
         "*** YOUR CODE HERE ***"
+        # Value(state) = max-over-action(
+        #                   summation-over-nextState(
+        #                       Prob_Transition(state, action, nextState) *
+        #                           Reward(state, action) + discounting-factor * Value(nextState)
+        #                   )
+        #                )
 
+        # Above can be rewritten as:
+        # Value(state) = max-over-action(QValueFromValues)
+
+        for i in range(self.iterations):
+            values = self.values.copy()  # before each iteration, copy one.
+            for state in mdp.getStates():
+                maxVal = float("-inf")
+                for action in mdp.getPossibleActions(state):
+                    qVal = self.computeQValueFromValues(state, action)
+                    if mdp.isTerminal(s):
+                        maxVal = qVal
+                    else:
+                        if qVal > maxVal:
+                            maxVal = qVal
+                    values[state] = maxVal
+
+            self.values = values
 
     def getValue(self, state):
         """
@@ -53,14 +76,22 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
         return self.values[state]
 
-
     def computeQValueFromValues(self, state, action):
         """
           Compute the Q-value of action in state from the
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # QValue(state, action) =
+        #                   summation-over-nextState(
+        #                       Prob_Transition(state, action, nextState) *
+        #                           Reward(state, action) + discounting-factor * Value(nextState)
+        #                   )
+        qVal = 0
+        for nextState, probTransition in self.mdp.getTransitionStatesAndProbs(state, action):
+            qVal += probTransition * (
+                self.mdp.getReward(state, action, nextState) + self.discount * self.values[nextState])
+        return qVal
 
     def computeActionFromValues(self, state):
         """
@@ -72,7 +103,16 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        possibleActions = self.mdp.getPossibleActions(state)
+        if self.mdp.isTerminal(state) == False and possibleActions:
+            bestAction = possibleActions[0]
+            bestQ = self.getQValue(state, bestAction)
+            for action in possibleActions:
+                if self.getQValue(state, action) > bestQ:
+                    bestQ = self.getQValue(state, action)
+                    bestAction = action
+            return bestAction
+        return None
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)

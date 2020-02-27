@@ -43,6 +43,8 @@ class QLearningAgent(ReinforcementAgent):
         ReinforcementAgent.__init__(self, **args)
 
         "*** YOUR CODE HERE ***"
+        # Initialise QValues table, where each possible (state,action) is initialized to 0
+        self.qValues = util.Counter()
 
     def getQValue(self, state, action):
         """
@@ -51,7 +53,8 @@ class QLearningAgent(ReinforcementAgent):
           or the Q node value otherwise
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # return QValue from QValues table for specified (state,action)
+        return self.qValues[(state, action)]
 
 
     def computeValueFromQValues(self, state):
@@ -62,7 +65,24 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Following is formula to calculate Value from QValue:
+        #     Value(state) = max-over-all-legal-actions(QValue(state, action))
+
+        # * Fetch legal actions agent can take from current state
+        #   This could be going North, South, East, West or Stop.
+        # * If no legal actions, then return 0.0
+        # * If there are legal actions i.e in terminal state, then get
+        #   max QValue from the list of QValues computed using `getQValue`
+        #   for all legal actions from current state
+        legalActions = self.getLegalActions(state)
+        if legalActions:
+            maxVal = float("-inf")
+            for action in legalActions:
+                q = self.getQValue(state, action)
+                if q >= maxVal:
+                    maxVal = q
+            return maxVal
+        return 0.0
 
     def computeActionFromQValues(self, state):
         """
@@ -71,7 +91,23 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        # * Fetch legal actions agent can take from current state
+        # * If there are no legal actions, then return None as best action
+        # * If there are legal actions i.e. in terminal state, then select
+        #   the action leading to highest QValue from current state as the
+        #   best action
+        legalActions = self.getLegalActions(state)
+        if legalActions:
+            maxVal = float("-inf")
+            bestAction = None
+            for action in legalActions:
+                q = self.getQValue(state, action)
+                if q >= maxVal:
+                    maxVal = q
+                    bestAction = action
+            return bestAction
+        return None
 
     def getAction(self, state):
         """
@@ -88,8 +124,20 @@ class QLearningAgent(ReinforcementAgent):
         legalActions = self.getLegalActions(state)
         action = None
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
+        # * Fetch legal actions agent can take from current state
+        # * If there are no legal actions i.e in terminal state, then
+        #   return None as action
+        # * If there are legal actions, then use `flipCoin` function to
+        #   get probability distribution over epsilon. Depending on the
+        #   `flipCoin` output, we do the following:
+        #   - If true, Select action randomly from legal action
+        #   - If false, Select best policy action calculated using
+        #     `getPolicy` function for current state
+        if legalActions:
+            if util.flipCoin(self.epsilon):
+                action = random.choice(legalActions)
+            else:
+                action = self.getPolicy(state)
         return action
 
     def update(self, state, action, nextState, reward):
@@ -102,7 +150,32 @@ class QLearningAgent(ReinforcementAgent):
           it will be called on your behalf
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # Fetch legal actions agent can take from next state
+        legalActions = self.getLegalActions(nextState)
+
+        # Fetch existing QValue i.e QValue at time Tminus1 using `getQValue` function with current state and action as arguments
+        qValue_Tminus1 = self.getQValue(state, action)
+
+        # Get list of QVals for nextState and nextAction using `getQValue` function
+        Qvals = []
+        if legalActions:
+            for nextAction in legalActions:
+                Qvals.append(self.getQValue(nextState, nextAction))
+
+        # Using max value from list of Qvals, reward, discount and QValue_Tminus1, compute TD
+        # Calculate Temporal Difference at time T
+        # TD_T = Reward + discounting-factor * max-actions(
+        #                                       QValue(nextstate, nextaction)
+        #                                      ) - QValue_Tminus1(state, action)
+
+        if Qvals:
+            TD_T = reward + self.discount * max(Qvals) - qValue_Tminus1
+        else:
+            TD_T = reward - qValue_Tminus1
+
+        # Compute new QValue using the formula:
+        #    QValue(state, action) = QValue_Tminus1(state, action) + learning_rate * TD_T(action, state)
+        self.qValues[(state, action)] = qValue_Tminus1 + self.alpha * TD_T
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
