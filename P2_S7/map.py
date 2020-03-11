@@ -25,8 +25,9 @@ from ai import Dqn
 # Adding this line if we don't want the right click to put a red point
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.set('graphics', 'resizable', False)
-Config.set('graphics', 'width', '1429')
-Config.set('graphics', 'height', '660')
+# Bug on MACOS, have to half the resolution for this to work
+Config.set('graphics', 'width', '715')#'1429')
+Config.set('graphics', 'height', '330')#'660')
 
 # Introducing last_x and last_y, used to keep the last point in memory when we draw the sand on the map
 last_x = 0
@@ -46,19 +47,23 @@ im = CoreImage("./images/MASK1.png")
 
 # Initializing the map
 first_update = True
+goals = [
+        (500, 566), # Nirav Modi
+        (1160, 474), # Airport
+        (358, 66) # Mallya
+    ]
 def init():
     global sand
     global goal_x
     global goal_y
     global first_update
+    global goals_iter
     sand = np.zeros((longueur,largeur))
     img = PILImage.open("./images/mask.png").convert('L')
     sand = np.asarray(img)/255
-    goal_x = 1420
-    goal_y = 622
     first_update = False
-    global swap
-    swap = 0
+    goals_iter = 0
+    goal_x, goal_y = goals[goals_iter]
 
 
 # Initializing the last distance
@@ -134,7 +139,7 @@ class Game(Widget):
         global goal_y
         global longueur
         global largeur
-        global swap
+        global goals_iter
         
 
         longueur = self.width
@@ -159,38 +164,32 @@ class Game(Widget):
             self.car.velocity = Vector(0.5, 0).rotate(self.car.angle)
             print(1, goal_x, goal_y, distance, int(self.car.x),int(self.car.y), im.read_pixel(int(self.car.x),int(self.car.y)))
             
-            last_reward = -1
+            last_reward = -3
         else: # otherwise
             self.car.velocity = Vector(2, 0).rotate(self.car.angle)
-            last_reward = -0.2
+            last_reward = -0.1
             print(0, goal_x, goal_y, distance, int(self.car.x),int(self.car.y), im.read_pixel(int(self.car.x),int(self.car.y)))
             if distance < last_distance:
-                last_reward = 0.1
-            # else:
-            #     last_reward = last_reward +(-0.2)
+                last_reward = 0.5
+            #else:
+            #    last_reward = last_reward +(-0.2)
 
         if self.car.x < 5:
             self.car.x = 5
-            last_reward = -1
+            last_reward = -10
         if self.car.x > self.width - 5:
             self.car.x = self.width - 5
-            last_reward = -1
+            last_reward = -10
         if self.car.y < 5:
             self.car.y = 5
-            last_reward = -1
+            last_reward = -10
         if self.car.y > self.height - 5:
             self.car.y = self.height - 5
-            last_reward = -1
+            last_reward = -10
 
         if distance < 25:
-            if swap == 1:
-                goal_x = 1420
-                goal_y = 622
-                swap = 0
-            else:
-                goal_x = 9
-                goal_y = 85
-                swap = 1
+            goals_iter = (goals_iter + 1) % 3
+            goal_x, goal_y = goals[goals_iter]
         last_distance = distance
 
 # Adding the painting tools
