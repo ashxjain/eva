@@ -6,7 +6,7 @@ In reinforcement learning, an agent/program is continuously learning from its en
 
 As we all know about the Q equation derived from famous Bellman Equation, which is the basis for reinforcement learning:
 
-![BellmanEqn](/Users/ashishjain/eva/P2_S9/images/BellmanEqn.svg)
+![BellmanEqn](images/BellmanEqn.svg)
 
 So in above equation:
 
@@ -21,11 +21,11 @@ For solving complex problems, we use a Deep Q Network (DQN), to predict Q-values
 
 A DQN takes in state as input and outputs Q values for all possible actions.
 
-![DQN](/Users/ashishjain/eva/P2_S9/images/DQN.png)
+![DQN](images/DQN.png)
 
 Since there are discrete number of actions, it will not work for continuous action spaces. For example, it works fine if say a car's action is to move 5 degrees left or right or no movement at all. But if it has be a range like -5 to +5 degrees, then this will not work. Hence comes in A3C models.
 
-![A3C](/Users/ashishjain/eva/P2_S9/images/A3C.png)
+![A3C](images/A3C.png)
 
 A3C models is an extension to DQN model, where we have two models: Actor & Critic.
 
@@ -33,7 +33,7 @@ Actor is trying to predict an action based on the current state (policy network)
 
 In T3D, twin stands for "2 Critic models", hence here we have 1 Actor, 2 Critic models.
 
-![T3D-HighLevel](/Users/ashishjain/eva/P2_S9/images/T3D-HighLevel.png)
+![T3D-HighLevel](images/T3D-HighLevel.png)
 
 Two critic models gives stability to our network. More explanation on this and how it is trained is covered step-by-step with actual implementation.
 
@@ -78,7 +78,7 @@ from collections import deque
 
 * If memory is full, then first entry is removed and new entry is added.
   
-  ![ReplayMemory](/Users/ashishjain/eva/P2_S9/images/ReplayMemory.png)
+  ![ReplayMemory](images/ReplayMemory.png)
   
 * Replay memory size is usually initialised to a large number, in our case 1 Million, so that agent can learn from variety of experiences
 
@@ -190,7 +190,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 ## Step 4: Training Initializations
 
 * Our whole training process is built in a class. In this class, as part of `__init__`, we initialize the following networks:
-  ![T3D](/Users/ashishjain/eva/P2_S9/images/T3D.png)
+  ![T3D](images/T3D.png)
 * As part of initialization, Actor Target model weights are same as Actor model. Similary Critic Target models weight are same as correspoding Critic models.
 
 ```python
@@ -256,7 +256,7 @@ Actor network predicts next action for the agent to take from current state. Thi
 
 - But to train actor network, we first need to get output from Critic network and hence we must first train Critic network. And Critic network is trained by Critic Target network, which in turn needs output from Actor Target network. So let's break this down and first see how to train Critic Network
 
-  ![T3D-Train-Order](/Users/ashishjain/eva/P2_S9/images/T3D-Train-Order.png)
+  ![T3D-Train-Order](images/T3D-Train-Order.png)
 
 ## Step 7: Training Critic Network
 
@@ -264,9 +264,9 @@ Critic network takes in (s, a) from the batch. And outputs Q-value.
 
 For loss calculation we first need to find target Q-value. And that is calculated using Bellman's equation:
 
-![BellmanEqn](/Users/ashishjain/eva/P2_S9/images/BellmanEqn.svg)
+![BellmanEqn](images/BellmanEqn.svg)
 
-![T3D-CriticNetworkWeightsBackProp](/Users/ashishjain/eva/P2_S9/images/T3D-CriticNetworkWeightsBackProp.png)
+![T3D-CriticNetworkWeightsBackProp](images/T3D-CriticNetworkWeightsBackProp.png)
 
 ##### Step 7.1: Calculating target Q-Value
 
@@ -340,7 +340,7 @@ So, we need the following to calculate target Q-value:
 
 * Now that we have Critic network updated with new weights. Once in every policy_freq (=2) iteration, we update Actor network weights.
 
-  ![T3D-ActorNetworkGradAsc](/Users/ashishjain/eva/P2_S9/images/T3D-ActorNetworkGradAsc.png)
+  ![T3D-ActorNetworkGradAsc](images/T3D-ActorNetworkGradAsc.png)
 
 * Actor network uses Critic network 1 (Q1)'s output for loss calculation. This loss is maximized using Gradient Ascent. We maximize loss here because we want to maximize Q-value and max Q-value is the action taken by the agent.
 
@@ -358,11 +358,11 @@ So, we need the following to calculate target Q-value:
 
 * Once the actor network weights are updated, after next two iterations, target networks' weights are updated from their corresponding model networks using Polyak Averaging.
 
-  ![T3D-PolyakAvg](/Users/ashishjain/eva/P2_S9/images/T3D-PolyakAvg.png) 
+  ![T3D-PolyakAvg](images/T3D-PolyakAvg.png)
 
 * **Polyak Averaging:** The essence of this equation is to take little of new weights and keep most of old weights. Tau is a very small number.
 
-  ![PolyakAvgEqn](/Users/ashishjain/eva/P2_S9/images/PolyakAvgEqn.svg)
+  ![PolyakAvgEqn](images/PolyakAvgEqn.svg)
 
 * Above equation can be rewritten as:
                                                                  W<sub>new</sub> = (tau) W<sub>in</sub> + (1 - tau) W<sub>old </sub>
@@ -439,3 +439,4 @@ Here's a summary in terms of first 4 iterations:
    * **Critic Target Network 2**:
      - Update weights from Critic Network 2
      - Critic-Target-2<sub>new</sub> = (tau) Critic-2<sub>new</sub> + (1 - tau) Critic-Target-2<sub>old </sub>
+
