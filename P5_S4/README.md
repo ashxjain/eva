@@ -47,7 +47,7 @@ class Net(nn.Module):
   6. Added Batch Normalization after every conv layer, except last layer
   7. With above things, i was able to achieve 99.36% Accuracy at 18th Epoch. Training loss was 0.0036, but test loss was 0.0218. This was clearly overfitting! So tried two things to fix it: Dropout & Image Preprocessing
      1. Tried Dropout with values 0.1,0.2,etc but it was not performing well
-     2. Tried adding image preprocesing i.e. RandomAffine/ColorJitter. Worked very well! Was able to achieve 99.45% Accuracy at 9th Epoch. And 99.50 at 20th Epoch.
+     2. Tried adding image preprocesing i.e. RandomAffine/ColorJitter. Worked very well! Was able to achieve 99.45% Accuracy at 10th Epoch. And 99.50 at 20th Epoch.
 * My goal was to achieve 99.4% accurach in less than 20 epochs with less than 20K paramters, which i achieved. But there are lot more things we can try to improve the network. For example:
   1. Better learning rate
   2. Try different batch size
