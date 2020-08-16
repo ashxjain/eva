@@ -1,5 +1,11 @@
 # Architectural Basics
 
+* GROUP MEMBERS:
+  * Ashish Jain (ashxjain@gmail.com)
+  * Samir Prasad (samir.prasad@outlook.com)
+
+  
+  
 * We'll start with a base network and see how we improve it and there by learning on how to use different methologies to achieve desired results.
 
 * Base network architecutre:
