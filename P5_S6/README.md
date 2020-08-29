@@ -99,3 +99,13 @@ Tried following techniques on above base model with same configuration as above 
     | 0.0718 | 98.32 | 0.0177 | 99.37 |
     
   * L2 is causing the problem here. L1 gives some improvement, but again GBN reduces train accuracy and hence gives room for more improvement by running it for some more epochs
+
+### Final Results Visualized
+
+* Graphs of the all above experiments
+
+![losses-accuracies](https://raw.githubusercontent.com/ashxjain/eva/master/P5_S6/images/graph_loss_acc.png)
+
+* 25 mis-classified images with GhostBatchNorm. Most of it can predicted wrong by human itself
+
+![wrong-images](https://github.com/ashxjain/eva/blob/master/P5_S6/images/25misclassified_img_GBN.png?raw=true)
