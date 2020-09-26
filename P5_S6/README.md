@@ -26,7 +26,7 @@
 
 ### Experiments with L1, L2, BatchNorm, GhostBatchNorm techniques
 
-Tried following techniques on above base model with same configuration as above except the following is run for 15 Epochs:
+Tried the following techniques on above base model with same configuration as above except the following is run for 15 Epochs:
 
 * Base Model with L1 + BN:
   * With regularization parameter (lambda) set to 0.001
@@ -38,7 +38,7 @@ Tried following techniques on above base model with same configuration as above 
     | 0.1342 | 98.42 | 0.0175 | 99.47 |
     | 0.1245 | 98.41 | 0.0175 | 99.54 |
     | 0.0845 | 98.39 | 0.0179 | 99.43 |
-  * Adding L1 regularization didn't the affect the result. It almost same as what we got for base model
+  * Adding L1 regularization didn't affect the result. It is almost same as what we got for base model
   
 * Base Model with L2 + BN:
   
@@ -69,7 +69,7 @@ Tried following techniques on above base model with same configuration as above 
     | 0.1515 | 98.36 | 0.0191 | 99.34 |
     | 0.1539 | 98.42 | 0.0180 | 99.36 |
   
-  * Again no improvement, this is because L2 regularization
+  * Again no improvement, this is because of L2 regularization
   
 * Base Model with GBN
   
@@ -83,7 +83,7 @@ Tried following techniques on above base model with same configuration as above 
     | 0.1076 | 98.13 | 0.0220 | 99.35 |
     | 0.0562 | 98.25 | 0.0214 | 99.36 |
     | 0.0924 | 98.22 | 0.0211 | 99.38 |
-  * Although accuracy is less compared to L1. But there is scope of improvement if we run it for more number of epochs (as train accuracy is less)
+  * Although accuracy is less compared to L1. But, there is scope for improvement if we run it for more number of epochs (as train accuracy is less)
   
 * Base Model with L1 and L2 with GBN
   * Same configuration is set as done for above L1/L2/GBN
@@ -102,10 +102,10 @@ Tried following techniques on above base model with same configuration as above 
 
 ### Final Results Visualized
 
-* Graphs of the all above experiments
+* Loss/Accuracy graphs of above experiments
 
 ![losses-accuracies](https://raw.githubusercontent.com/ashxjain/eva/master/P5_S6/images/graph_loss_acc.png)
 
-* 25 mis-classified images with GhostBatchNorm. Most of it can predicted wrong by human itself
+* 25 mis-classified images with GhostBatchNorm. Most of the following images, will be predicted wrong by humans itself
 
 ![wrong-images](https://github.com/ashxjain/eva/blob/master/P5_S6/images/25misclassified_img_GBN.png?raw=true)
