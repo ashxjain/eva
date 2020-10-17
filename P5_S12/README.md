@@ -1,4 +1,4 @@
-## Object Localisation
+## Object Localization
 
 * To understand object localisation, following is done in this project:
   * Collect dataset of people wearing hardhat,mask,vest,boots
@@ -49,3 +49,8 @@
 * `regions` are bounding boxes of region of interest in the image. Their centroid (`x`, `y`) and their `width` and `height` are stored as part of `shape_attributes`. Each bounding box is labeled with one or more `region_attributes`. These `region_attributes` are key-value pairs used to store metadata about the selected boxes (boudning box) in the image
 * `file_attributes` are key-value pairs used to store metadata about complete file itself
 * Above annotation tool is mainly used to annotate (in above format) objects in the image and later use this to train the network to predict such bounding boxes on test/validation dataset
+
+#### References:
+* VGG Annotator: http://www.robots.ox.ac.uk/~vgg/software/via/via_demo.html
+* K-Means tutorial: https://youtu.be/4b5d3muPQmA 
+* K-Means Clustering Python: https://towardsdatascience.com/machine-learning-algorithms-part-9-k-means-example-in-python-f2ad05ed5203
