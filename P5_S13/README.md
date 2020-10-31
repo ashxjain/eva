@@ -17,7 +17,9 @@
 ### Sample Videos and their annotations
 * Can be found in sample_videos folder
 * Annotations are on Youtube:
-  * video1:
+- video1:
+
   [![Alt text](https://img.youtube.com/vi/5q4j3JOMBtc/0.jpg)](https://www.youtube.com/watch?v=5q4j3JOMBtc)
-  * video2:
+- video2:
+
   [![Alt text](https://img.youtube.com/vi/PN-TCIcZW5E/0.jpg)](https://www.youtube.com/watch?v=PN-TCIcZW5E)
