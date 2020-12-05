@@ -22,7 +22,7 @@
 #### **YoloV3**
 
 * Following is the architecure of YoloV3:
-<img src="images/YoloV3Arch.png" alt="drawing"/>
+<img src="images/YoloV3Arch.png" alt="drawing" width="500"/>
 * As seen above, it is using ResNet. We'll use ResNeXt branch of MiDaS network and then add three branches to get three scales of output of Yolo network
 * So the ResNeXt branch will have pretrained weights of MiDaS network and the output branches will be initialised with pretrained weights of YoloV3 and will later be fine tuned as part of combined training
 * Yolo output branches will be connected to ResNeXt branch with additional convolutional layers which will be trained as part of training
@@ -30,7 +30,7 @@
 #### **PlaneRCNN**
 
 * Following is a simplified architecture of PlaneRCNN model:
-<img src="MaskRCNN.png" alt="drawing"/>
+<img src="images/MaskRCNN.png" alt="drawing"/>
 * As seen above it is a combination of multiple network, but we have common ResNet network here. Hence we can extend MiDaS's ResNeXt branch to incorporate planeRCNN network
 * Similar to YoloV3 model, we will load MiDaS's ResNeXt branch with pretrained model and all the other parts of planeRCNN model will have its own pretrained weights which will be trained
 
