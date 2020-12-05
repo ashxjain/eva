@@ -34,7 +34,7 @@
 * As seen above it is a combination of multiple network, but we have common ResNet network here. Hence we can extend MiDaS's ResNeXt branch to incorporate planeRCNN network
 * Similar to YoloV3 model, we will load MiDaS's ResNeXt branch with pretrained model and all the other parts of planeRCNN model will have its own pretrained weights which will be trained
 
-#### Conclusion
+### Conclusion
 * As part of this project, I understood all the models
 * Was able to combine MiDaS and YoloV3 model and train the network. But results are not at all satisfactory
 * Work is in progress to combine PlaneRCNN model
